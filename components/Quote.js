@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View, TouchableHighlight } from 'react-native';
 
-const Quote = ({ quote,deletePatient }) => {
+const Quote = ({ quote, deletePatient }) => {
 
     const deleteQuote = (id) => {
         console.log("eliminando", id)
@@ -27,7 +27,7 @@ const Quote = ({ quote,deletePatient }) => {
 
             <View>
                 <Text style={styles.label}>Phone: </Text>
-                <Text style={styles.item}>{quote.phoneNumber}</Text>
+                <Text style={styles.item}>{quote.phone}</Text>
             </View>
 
             <View>
@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderBottomWidth: 1,
         paddingHorizontal: 10,
-        paddingVertical: 20
+        paddingVertical: 20,
+        elevation: 0.5
     },
     label: {
         fontWeight: 'bold',

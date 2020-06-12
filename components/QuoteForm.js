@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, View, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import shortid from 'shortid';
 
 
-export default function QuoteForm() {
+export default function QuoteForm({ quotes, setQuotes, setShowForm }) {
 
     const [patient, setPatient] = useState('');
     const [owner, setOwner] = useState('');
@@ -47,13 +48,45 @@ export default function QuoteForm() {
     };
 
     const createNewQuote = () => {
-        console.log("Creating a quote baby");
 
+        if (patient.trim() === '' ||
+            owner.trim() === '' ||
+            phone.trim() === '' ||
+            date.trim() === '' ||
+            hour.trim() === '' ||
+            trance.trim() === '') {
+            showAlert();
+        }
+
+        const quote = { owner, patient, phone, date, hour, trance };
+
+        quote.id = shortid.generate();
+
+        console.log(quote)
+
+        const quotesCreated = [...quotes, quote];
+
+        setQuotes(quotesCreated);
+
+        setShowForm(false);
+
+
+
+    }
+
+    const showAlert = () => {
+        Alert.alert(
+            'Error',
+            'Todos los campos son obligatorios',
+            [{
+                text: 'Ok'
+            }]
+        )
     }
 
     return (
         <>
-            <View style={styles.form}>
+            <ScrollView style={styles.form}>
                 <View>
                     <Text style={styles.label}>Patient: </Text>
                     <TextInput
@@ -125,7 +158,7 @@ export default function QuoteForm() {
                     </TouchableOpacity>
                 </View>
 
-            </View>
+            </ScrollView>
         </>
     )
 }
@@ -135,7 +168,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingHorizontal: 20,
         paddingVertical: 10,
-        marginHorizontal: '2.5%',
         borderRadius: 20,
         elevation: 0.5
     },
